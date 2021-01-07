@@ -1,11 +1,8 @@
+import weakref
 from wifipumpkin3.core.config.globalimport import *
-from os import system, path, getcwd, popen, listdir, mkdir, chown
+from os import path, mkdir
 from shutil import move
-from pwd import getpwnam
-from grp import getgrnam
 from wifipumpkin3.core.wirelessmode import *
-from json import dumps, loads
-from datetime import datetime
 from wifipumpkin3.core.common.uimodel import *
 from wifipumpkin3.core.utility.collection import SettingsINI
 from wifipumpkin3.core.wirelessmode import *

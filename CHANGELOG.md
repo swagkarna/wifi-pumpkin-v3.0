@@ -12,6 +12,9 @@ All notable changes to this project will be documented in this file.
 - added settings binary path of iptables editable 
 - added waitforfinish on Qprocess for add rules iptables 
 - added frist restful api implementation 
+- added DHCP command to select dhcp server configuration
+- added stop all modules with the command stop or exit is runnning
+- added new module for perform dns spoof attack with AP enable 
 
 ### Changed
 
@@ -26,6 +29,9 @@ All notable changes to this project will be documented in this file.
 - fixed error when execute from github actions 
 - fixed set restport by default 1337 
 - fixed process init hostapd duplicated
+- fixed clean code and code format improves
+- fixed github actions error when try to run pytests
+- fixed dhcp command for apply configurations on same session
 
 ## [Released]
 

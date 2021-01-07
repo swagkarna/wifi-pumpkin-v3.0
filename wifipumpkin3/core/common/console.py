@@ -82,7 +82,7 @@ class PumpkinShell(Qt.QObject, ConsoleUI):
         self.wireless_controller = self.coreui.getController("wireless_controller")
         self.dhcp_controller = self.coreui.getController("dhcp_controller")
         self.dns_controller = self.coreui.getController("dns_controller")
-        self.tableUI = self.coreui.getController("ui_controller")
+        self.uiwid_controller = self.coreui.getController("ui_controller")
 
         self.parser_list_func = {
             # parser_set_proxy is default extend class
@@ -225,8 +225,8 @@ class PumpkinShell(Qt.QObject, ConsoleUI):
             self.wireless_controller.ActiveReactor.signalApIsRuning.connect(
                 self.signalHostApdProcessIsRunning
             )
-            return 
-            
+            return
+
         for thread in self.threads["RogueAP"]:
             if thread is not None:
                 QtCore.QThread.sleep(1)
@@ -249,6 +249,19 @@ class PumpkinShell(Qt.QObject, ConsoleUI):
             self.threads["RogueAP"].insert(0, self.wireless_controller.ActiveReactor)
 
     def killThreads(self):
+
+        # kill all modules on background
+        if len(self.threads["Modules"]) > 0:
+            for module_name, instance in self.threads.get("Modules").items():
+                if instance._background_mode:
+                    print(
+                        display_messages(
+                            "job {} successfully stopped".format(module_name),
+                            sucess=True,
+                        )
+                    )
+                    instance.do_stop([])
+
         if not len(self.threads["RogueAP"]) > 0:
             return
         self.conf.set("accesspoint", "status_ap", False)
@@ -283,7 +296,11 @@ class PumpkinShell(Qt.QObject, ConsoleUI):
 
     def do_clients(self, args):
         """ap: show all connected clients on AP """
-        self.tableUI.ui_table_mod.start()
+        self.uiwid_controller.ui_table_mod.start()
+
+    def do_dhcp(self, args):
+        """ap: choise dhcp server configuration"""
+        self.uiwid_controller.ui_dhcp_config.start()
 
     def do_stop(self, args):
         """ap: stop access point service"""

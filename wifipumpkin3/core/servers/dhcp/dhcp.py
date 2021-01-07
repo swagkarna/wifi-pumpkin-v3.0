@@ -1,9 +1,9 @@
+import weakref
 from re import *
 from netaddr import EUI
 from wifipumpkin3.core.config.globalimport import *
 from wifipumpkin3.core.common.uimodel import *
 from wifipumpkin3.core.utility.component import ComponentBlueprint
-from isc_dhcp_leases.iscdhcpleases import IscDhcpLeases
 from wifipumpkin3.core.common.threads import ProcessThread
 from wifipumpkin3.exceptions.errors.dhcpException import DHCPServerSettingsError
 from wifipumpkin3.core.widgets.default.logger_manager import LoggerManager
@@ -37,10 +37,12 @@ class DHCPServers(QtCore.QObject, ComponentBlueprint):
         self.parent = parent
         self.conf = SuperSettings.getInstance()
 
-        self.DHCPConf = self.Settings.confingDHCP
-
         self.loggermanager = LoggerManager.getInstance()
         self.configure_logger()
+
+    @property
+    def DHCPConf(self):
+        return self.Settings.updateconf()
 
     def configure_logger(self):
         config_extra = self.loggermanager.getExtraConfig(self.ID)
@@ -143,3 +145,4 @@ class DHCPSettings(CoreSettings):
         self.confingDHCP["netmask"] = self.conf.get(self.ConfigRoot, "netmask")
         self.confingDHCP["broadcast"] = self.conf.get(self.ConfigRoot, "broadcast")
         self.confingDHCP["range"] = self.conf.get(self.ConfigRoot, "range")
+        return self.confingDHCP
