@@ -20,4 +20,4 @@ beautifulsoup4>=4.9.1
 asn1crypto>=1.0.0
 jwt>=1.0.0
 Flask-RESTful==0.3.7
-Werkzeug==1.0.1
+Werkzeug==2.2.3
